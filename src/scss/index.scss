@@ -1,3 +1,5 @@
+@import "_maze";
+
 * {
     margin: 0;
     padding: 0;
@@ -19,5 +21,45 @@ section {
 }
 
 .board_section {
-    background-color: blue;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.options_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+
+    label {
+        margin-bottom: 0.5rem;
+    }
+
+    input {
+        padding: 0.5rem;
+        border: 1px solid black;
+        border-radius: 0.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    button {
+        padding: 0.5rem;
+        border: 1px solid black;
+        border-radius: 0.25rem;
+        background-color: #f1f1f1;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #e1e1e1;
+        }
+    }
 }

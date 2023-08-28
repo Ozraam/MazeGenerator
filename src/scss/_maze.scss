@@ -1,0 +1,45 @@
+
+
+.row {
+    display: flex;
+}
+.maze {
+    --cell-size: 50px;
+    .cell {
+        width: var(--cell-size);
+        height: var(--cell-size);
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        border: 1px solid transparent;
+        transition: background-color 0.2s ease-in-out;
+
+        &.top {
+            border-top-color: black;
+        }
+
+        &.right {
+            border-right-color: black;
+        }
+
+        &.bottom {
+            border-bottom-color: black;
+        }
+
+        &.left {
+            border-left-color: black;
+        }
+
+        &.visited {
+            background-color: #0629c7;
+        }
+
+        &.current {
+            background-color: #c70606;
+        }
+
+        &.dead-end {
+            background-color: #c7c706;
+        }
+    }
+}

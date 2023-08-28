@@ -1,3 +1,31 @@
+.row {
+  display: flex; }
+
+.maze {
+  --cell-size: 50px; }
+  .maze .cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease-in-out; }
+    .maze .cell.top {
+      border-top-color: black; }
+    .maze .cell.right {
+      border-right-color: black; }
+    .maze .cell.bottom {
+      border-bottom-color: black; }
+    .maze .cell.left {
+      border-left-color: black; }
+    .maze .cell.visited {
+      background-color: #0629c7; }
+    .maze .cell.current {
+      background-color: #c70606; }
+    .maze .cell.dead-end {
+      background-color: #c7c706; }
+
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +43,36 @@ section {
   border-right: 1px solid black; }
 
 .board_section {
-  background-color: blue; }
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.form_input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0; }
+
+.options_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0; }
+  .options_form label {
+    margin-bottom: 0.5rem; }
+  .options_form input {
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem; }
+  .options_form button {
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    background-color: #f1f1f1;
+    cursor: pointer; }
+    .options_form button:hover {
+      background-color: #e1e1e1; }
 
 /*# sourceMappingURL=index.css.map */
