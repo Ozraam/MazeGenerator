@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  display: grid;
+  grid-template-columns: 1fr 4fr; }
+
+section {
+  height: 100vh; }
+
+.options_section {
+  background-color: #f1f1f1;
+  border-right: 1px solid black; }
+
+.board_section {
+  background-color: blue; }
+
+/*# sourceMappingURL=index.css.map */
