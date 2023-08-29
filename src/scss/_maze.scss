@@ -13,6 +13,7 @@
         background-color: white;
         border: 1px solid transparent;
         transition: background-color 0.2s ease-in-out;
+        position: relative;
 
         &.top {
             border-top-color: black;
@@ -35,7 +36,8 @@
         }
 
         &.current {
-            background-color: #c70606;
+            transition-duration: 0.1s;
+            background-color: #db0000;
         }
 
         &.dead-end {

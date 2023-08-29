@@ -13,24 +13,38 @@
         <h1>
             Maze Generator
         </h1>
-        <h2>
-            Options
-        </h2>
 
-        <form action="" class="options_form">
-            <div class="options form_input">
-                <label for="cell_size">Cell size</label>
-                <input type="number" name="cell_size" id="cell_size" value="50" min="10" max="100">
-            </div>
+        <div>
+            <h2>
+                Status
+            </h2>
 
-            <div class="options form_input">
-                <label for="sleepTime">Sleep time</label>
-                <input type="number" name="sleepTime" id="sleepTime" value="0" min="0" max="1000">
+            <div id="status">
+                
             </div>
-            <button type="button" id="generate">
-                Generate
-            </button>
-        </form>
+        </div>
+
+
+        <div>
+            <h2>
+                Options
+            </h2>
+
+            <form action="" class="options_form">
+                <div class="options form_input">
+                    <label for="cell_size">Cell size</label>
+                    <input type="number" name="cell_size" id="cell_size" value="50" min="10" max="100">
+                </div>
+
+                <div class="options form_input">
+                    <label for="sleepTime">Sleep time</label>
+                    <input type="number" name="sleepTime" id="sleepTime" value="0" min="0" max="1000">
+                </div>
+                <button type="button" id="generate">
+                    Generate
+                </button>
+            </form>
+        </div>
     </section>
     <section class="board_section">
         <div class="maze">

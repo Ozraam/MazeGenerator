@@ -10,7 +10,8 @@
     padding: 0;
     background-color: white;
     border: 1px solid transparent;
-    transition: background-color 0.2s ease-in-out; }
+    transition: background-color 0.2s ease-in-out;
+    position: relative; }
     .maze .cell.top {
       border-top-color: black; }
     .maze .cell.right {
@@ -22,7 +23,8 @@
     .maze .cell.visited {
       background-color: #0629c7; }
     .maze .cell.current {
-      background-color: #c70606; }
+      transition-duration: 0.1s;
+      background-color: #db0000; }
     .maze .cell.dead-end {
       background-color: #c7c706; }
 

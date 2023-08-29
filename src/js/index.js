@@ -1,9 +1,10 @@
 import { MazeManager } from './mazeManager.js';
 import { depthFirstGenerator } from './generatorAlgo/depthFirstAlgo.js';
+import { logToStatus } from './logger.js';
 
 const mazeDiv = document.querySelector('.maze');
 
-let sleepTime = 0;
+let sleepTime = document.querySelector('#sleepTime').value;
 
 let isGenerating = false;
 
@@ -19,7 +20,7 @@ let mazeManager = new MazeManager(row, col);
 
 mazeManager.draw(mazeDiv);
 
-depthFirstGenerator(mazeManager, 0, 0, sleepTime);
+depthFirstGenerator(mazeManager, 0, 0, sleepTime, logToStatus);
 
 document.querySelector('#cell_size').addEventListener('change', (e) => {
     if (isGenerating) {
@@ -43,13 +44,11 @@ document.querySelector('#cell_size').addEventListener('change', (e) => {
 });
 
 document.querySelector('#generate').addEventListener('click', async () => {
+    if (isGenerating) return;
     console.log('generate');
+    mazeManager.reset();
     mazeManager.draw(mazeDiv);
     isGenerating = true;
-    await depthFirstGenerator(mazeManager, 0, 0, sleepTime);
+    await depthFirstGenerator(mazeManager, 0, 0, document.querySelector('#sleepTime').value, logToStatus);
     isGenerating = false;
-});
-
-document.querySelector('#sleepTime').addEventListener('input', (e) => {
-    sleepTime = e.target.value;
 });
