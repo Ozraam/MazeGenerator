@@ -2,7 +2,8 @@
   display: flex; }
 
 .maze {
-  --cell-size: 50px; }
+  --cell-size: 50px;
+  --current-transition-duration: 0.1s; }
   .maze .cell {
     width: var(--cell-size);
     height: var(--cell-size);
@@ -23,7 +24,7 @@
     .maze .cell.visited {
       background-color: #0629c7; }
     .maze .cell.current {
-      transition-duration: 0.1s;
+      transition-duration: var(--current-transition-duration);
       background-color: #db0000; }
     .maze .cell.dead-end {
       background-color: #c7c706; }
@@ -76,5 +77,10 @@ section {
     cursor: pointer; }
     .options_form button:hover {
       background-color: #e1e1e1; }
+  .options_form select {
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem; }
 
 /*# sourceMappingURL=index.css.map */

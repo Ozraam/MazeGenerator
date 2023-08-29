@@ -5,6 +5,9 @@ import { MazeManager } from "../mazeManager.js";
  * @param {MazeManager} mazeManager 
  */
 export async function depthFirstGenerator(mazeManager, startRow = 0, startCol = 0, sleepTime = 5, logger = console.log) {
+    document.querySelector('.maze').style.setProperty('--current-transition-duration', `0.1s`);
+    const startTotalTime = Date.now();
+    
     const stack = [];
     const startCell = mazeManager.getCell(startRow, startCol);
     startCell.visited = true;
@@ -31,12 +34,23 @@ export async function depthFirstGenerator(mazeManager, startRow = 0, startCol = 
             const elapsedTime = endTime - startTime;
             const remainingTime = elapsedTime * (totalCells - visitedCount);
 
-            logger(`visited: ${visitedCount} / ${totalCells}`, `finished: ${(deadEndCount / totalCells * 100).toFixed(2)}%`, `dead-ends: ${deadEndCount}`, `time remaining: ${Math.floor(remainingTime / 1000)}s`);
+            logger('On Going...', `visited: ${visitedCount} / ${totalCells}`, `finished: ${(deadEndCount / totalCells * 100).toFixed(2)}%`, `dead-ends: ${deadEndCount}`, `time remaining: ${Math.floor(remainingTime / 1000)}s`);
         } else {
             currentCell.getCellDiv().classList.add('dead-end');
             deadEndCount++;
         }
-        
+
         currentCell.getCellDiv().classList.remove('current');
     }
+
+    const endTotalTime = Date.now();
+    const elapsedTotalTime = endTotalTime - startTotalTime;
+
+    logger('Done !',
+        `visited: ${visitedCount} / ${totalCells}`,
+        `finished: ${(deadEndCount / totalCells * 100).toFixed(2)}%`,
+        `dead-ends: ${deadEndCount}`,
+        `time remaining: 0s`,
+        `total time: ${Math.floor(elapsedTotalTime / 1000)}s and ${elapsedTotalTime % 1000}ms`
+    );
 }

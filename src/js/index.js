@@ -1,10 +1,15 @@
 import { MazeManager } from './mazeManager.js';
 import { depthFirstGenerator } from './generatorAlgo/depthFirstAlgo.js';
+import { kruskalGenerator } from './generatorAlgo/kruskalAlgo.js';
 import { logToStatus } from './logger.js';
 
 const mazeDiv = document.querySelector('.maze');
 
-let sleepTime = document.querySelector('#sleepTime').value;
+const genAlgorithm = [
+    depthFirstGenerator,
+    kruskalGenerator
+]
+
 
 let isGenerating = false;
 
@@ -17,10 +22,9 @@ const row = Math.floor(mazeHeight / 50);
 
 let mazeManager = new MazeManager(row, col);
 
-
 mazeManager.draw(mazeDiv);
 
-depthFirstGenerator(mazeManager, 0, 0, sleepTime, logToStatus);
+generateMaze();
 
 document.querySelector('#cell_size').addEventListener('change', (e) => {
     if (isGenerating) {
@@ -44,11 +48,28 @@ document.querySelector('#cell_size').addEventListener('change', (e) => {
 });
 
 document.querySelector('#generate').addEventListener('click', async () => {
+    generateMaze();
+});
+
+function toogleInputs() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => input.disabled = !input.disabled);
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => button.disabled = !button.disabled);
+}
+
+async function generateMaze() {
     if (isGenerating) return;
+
+    const algoNumber = document.querySelector('#algo_gen_choice').value;
+
     console.log('generate');
     mazeManager.reset();
     mazeManager.draw(mazeDiv);
     isGenerating = true;
-    await depthFirstGenerator(mazeManager, 0, 0, document.querySelector('#sleepTime').value, logToStatus);
+    toogleInputs();
+    await genAlgorithm[algoNumber](mazeManager, 0, 0, document.querySelector('#sleepTime').value, logToStatus);
+    toogleInputs();
     isGenerating = false;
-});
+}

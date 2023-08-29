@@ -9,6 +9,7 @@ export class Cell {
             left: true
         };
         this._visited = false;
+        this.set = new Set([this]);
     }
 
     set visited(value) {
@@ -27,5 +28,16 @@ export class Cell {
 
     getCellDiv() {
         return document.querySelector(`.cell[data-row="${this.row}"][data-col="${this.col}"]`);
+    }
+
+    isSameSet(cell) {
+        return this.set === cell.set;
+    }
+
+    union(cell) {
+        const newSet = new Set([...this.set, ...cell.set]);
+        for (let cell of newSet) {
+            cell.set = newSet;
+        }
     }
 }

@@ -5,6 +5,7 @@
 }
 .maze {
     --cell-size: 50px;
+    --current-transition-duration: 0.1s;
     .cell {
         width: var(--cell-size);
         height: var(--cell-size);
@@ -36,7 +37,7 @@
         }
 
         &.current {
-            transition-duration: 0.1s;
+            transition-duration: var(--current-transition-duration);
             background-color: #db0000;
         }
 

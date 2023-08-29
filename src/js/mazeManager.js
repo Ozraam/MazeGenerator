@@ -129,6 +129,7 @@ export class MazeManager {
                     bottom: true,
                     left: true
                 };
+                cell.set = new Set([cell]);
             }
         }
     }
