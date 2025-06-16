@@ -13,6 +13,7 @@ export async function kruskalGenerator(mazeManager, _startRow = 0, _startCol = 0
     const cells = [];
     const totalCells = mazeManager.rows * mazeManager.cols;
     const startTime = Date.now();
+    // Initialize all cells as their own set
     for (let i = 0; i < mazeManager.rows; i++) {
         for (let j = 0; j < mazeManager.cols; j++) {
             const cell = mazeManager.getCell(i, j);

@@ -76,8 +76,25 @@ export class MazeManager {
         }
     }
 
+    /**
+     * Returns a random unvisited cell from the maze.
+     * @param {Cell} cell 
+     * @returns {Cell|null} A random unvisited cell or null if all cells are visited.
+     */
     getUnvisitedNeighbors(cell) {
         return this.getNeighbors(cell).filter(neighbor => !neighbor.visited);
+    }
+
+    /**
+     * Returns a random neighbor of the given cell, visited or not.
+     * @param {Cell} cell 
+     * @return {Cell|null} A random neighbor cell or null if no neighbors exist.
+     */
+    getRandomNeighbor(cell) {
+        const neighbors = this.getNeighbors(cell);
+        if (neighbors.length === 0) return null;
+        const randomIndex = Math.floor(Math.random() * neighbors.length);
+        return neighbors[randomIndex];
     }
 
     /**
