@@ -26,10 +26,10 @@ export async function depthFirstGenerator(mazeManager, startRow = 0, startCol = 
             stack.push(currentCell);
             const randomNeighbor = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
             mazeManager.removeWalls(currentCell, randomNeighbor);
-            randomNeighbor.visited = true;
             stack.push(randomNeighbor);
             visitedCount++;
             if (sleepTime > 0) await new Promise(resolve => setTimeout(resolve, sleepTime));
+            randomNeighbor.visited = true;
             const endTime = Date.now();
             const elapsedTime = endTime - startTime;
             const remainingTime = elapsedTime * (totalCells - visitedCount);

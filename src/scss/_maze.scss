@@ -6,6 +6,7 @@
 .maze {
     --cell-size: 50px;
     --current-transition-duration: 0.1s;
+    overflow: hidden;
     .cell {
         width: var(--cell-size);
         height: var(--cell-size);
@@ -13,7 +14,7 @@
         padding: 0;
         background-color: white;
         border: 1px solid transparent;
-        transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
         position: relative;
 
         &.top {
@@ -39,10 +40,16 @@
         &.current {
             transition-duration: var(--current-transition-duration);
             background-color: #db0000;
+            transform: scale(1.5);
+            z-index: 10;
         }
 
         &.dead-end {
             background-color: #c7c706;
+        }
+
+        &.path {
+            background-color: #5e6d5e;
         }
     }
 }

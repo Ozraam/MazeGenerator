@@ -2,6 +2,7 @@ import { MazeManager } from './mazeManager.js';
 import { depthFirstGenerator } from './generatorAlgo/depthFirstAlgo.js';
 import { kruskalGenerator } from './generatorAlgo/kruskalAlgo.js';
 import { aldousBroderGenerator } from './generatorAlgo/AldousBroderAlgo.js';
+import { WilsonGenerator } from './generatorAlgo/WilsonAlgo.js';
 import { logToStatus } from './logger.js';
 
 const mazeDiv = document.querySelector('.maze');
@@ -9,7 +10,8 @@ const mazeDiv = document.querySelector('.maze');
 const genAlgorithm = [
     depthFirstGenerator,
     kruskalGenerator,
-    aldousBroderGenerator
+    aldousBroderGenerator,
+    WilsonGenerator
 ]
 
 

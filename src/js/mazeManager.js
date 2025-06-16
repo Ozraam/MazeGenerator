@@ -88,10 +88,11 @@ export class MazeManager {
     /**
      * Returns a random neighbor of the given cell, visited or not.
      * @param {Cell} cell 
+     * @param {Cell[]} exclude - An array of cells to exclude from the selection.
      * @return {Cell|null} A random neighbor cell or null if no neighbors exist.
      */
-    getRandomNeighbor(cell) {
-        const neighbors = this.getNeighbors(cell);
+    getRandomNeighbor(cell, exclude = []) {
+        const neighbors = this.getNeighbors(cell).filter(neighbor => !exclude.includes(neighbor));
         if (neighbors.length === 0) return null;
         const randomIndex = Math.floor(Math.random() * neighbors.length);
         return neighbors[randomIndex];
@@ -151,4 +152,14 @@ export class MazeManager {
         }
     }
 
+    getUnvisitedCells() {
+        return this.cells.flat().filter(cell => !cell.visited);
+    }
+
+    getRandomUnvisitedCell() {
+        const unvisitedCells = this.getUnvisitedCells();
+        if (unvisitedCells.length === 0) return null;
+        const randomIndex = Math.floor(Math.random() * unvisitedCells.length);
+        return unvisitedCells[randomIndex];
+    }
 }

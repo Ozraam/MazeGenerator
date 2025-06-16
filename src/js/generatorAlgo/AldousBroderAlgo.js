@@ -37,7 +37,7 @@ export async function aldousBroderGenerator(mazeManager, startRow = 0, startCol 
 
         logger('On Going...', `visited: ${visitedCount} / ${totalCells}`, `finished: ${(visitedCount / totalCells * 100).toFixed(2)}%`);
     }
-
+    currentCell.getCellDiv().classList.remove('current');
     const endTotalTime = Date.now();
     const elapsedTotalTime = endTotalTime - startTotalTime;
 
