@@ -13,6 +13,12 @@ export class MazeManager {
         }
     }
 
+    /**
+     * Returns the cell at the specified row and column.
+     * @param {number} row 
+     * @param {number} col 
+     * @returns {Cell} The cell at the specified row and column.
+     */
     getCell(row, col) {
         return this.cells[row][col];
     }
@@ -33,6 +39,34 @@ export class MazeManager {
             neighbors.push(this.cells[row][col - 1]);
         }
         return neighbors;
+    }
+
+    /**
+     * Pushes a new row of cells to the maze.
+     * Throws an error if the row length does not match the number of columns.
+     * @param {Cell[]} row 
+     */
+    pushNewRow(row) {
+        if (row.length !== this.cols) {
+            throw new Error(`Row length must be equal to cols (${this.cols})`);
+        }
+        this.cells.push(row);
+        this.rows++;
+    }
+
+    /**
+     * Pushes a new column of cells to the maze.
+     * @param {Cell[]} col 
+     * @throws {Error} If the number of cells in each row does not match the number of rows.
+     */
+    pushNewCol(col) {
+        if (this.cells.length !== this.rows) {
+            throw new Error(`Number of rows must be equal to the number of cells in each row (${this.cells.length})`);
+        }
+        for (let i = 0; i < this.rows; i++) {
+            this.cells[i].push(col[i]);
+        }
+        this.cols++;
     }
 
     removeWalls(cell1, cell2) {

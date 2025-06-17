@@ -3,6 +3,7 @@ import { depthFirstGenerator } from './generatorAlgo/depthFirstAlgo.js';
 import { kruskalGenerator } from './generatorAlgo/kruskalAlgo.js';
 import { aldousBroderGenerator } from './generatorAlgo/AldousBroderAlgo.js';
 import { WilsonGenerator } from './generatorAlgo/WilsonAlgo.js';
+import { EllerGenerator } from './generatorAlgo/EllerAlgo.js';
 import { logToStatus } from './logger.js';
 
 const mazeDiv = document.querySelector('.maze');
@@ -11,7 +12,8 @@ const genAlgorithm = [
     depthFirstGenerator,
     kruskalGenerator,
     aldousBroderGenerator,
-    WilsonGenerator
+    WilsonGenerator,
+    EllerGenerator
 ]
 
 
