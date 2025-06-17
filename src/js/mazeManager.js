@@ -188,7 +188,9 @@ export class MazeManager {
             }
             maze.appendChild(row);
         }
-    }    /**
+    }    
+    
+    /**
      * Gets the DOM element for a cell at the specified coordinates.
      * @param {number} row - The row index of the cell
      * @param {number} col - The column index of the cell
@@ -217,7 +219,9 @@ export class MazeManager {
                 cell.set = new Set([cell]);
             }
         }
-    }    /**
+    }    
+    
+    /**
      * Gets all unvisited cells in the maze.
      * @returns {Cell[]} Array of all unvisited cells
      */

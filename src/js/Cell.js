@@ -28,7 +28,9 @@ export class Cell {
         this._visited = false;
         /** @type {Set<Cell>} - Set containing this cell, used for union-find operations */
         this.set = new Set([this]);
-    }    /**
+    }    
+    
+    /**
      * Sets the visited state of the cell and updates the DOM element.
      * @param {boolean} value - The new visited state
      */
