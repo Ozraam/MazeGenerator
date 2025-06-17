@@ -1,128 +1,140 @@
 import { MazeManager } from "../mazeManager.js";
 
 /**
- * 
+ * Optimized Eller's Algorithm for maze generation
  * @param {MazeManager} mazeManager 
  * @param {number} startRow 
  * @param {number} startCol 
  * @param {number} sleepTime 
- * @param {(...String) -> void} logger 
+ * @param {(...String) => void} logger 
  */
 export async function EllerGenerator(mazeManager, startRow = 0, startCol = 0, sleepTime = 5, logger = console.log) {
     document.querySelector('.maze').style.setProperty('--current-transition-duration', `0s`);
-    const startTotalTime = Date.now();
-
-    const sets = [];
-    let visitedCount = 0;
-    let totalCells = mazeManager.rows * mazeManager.cols;
-
+    const startTotalTime = Date.now();    
     const numberOfRows = mazeManager.rows;
+    const numberOfCols = mazeManager.cols;
+    const totalCells = numberOfRows * numberOfCols;
 
+    // Initialize sets for the first row
+    let sets = Array.from({ length: numberOfCols }, (_, i) => i);
+    let nextSetId = numberOfCols;
 
-    for (let col = 0; col < mazeManager.cols; col++) {
-        const cell = mazeManager.getCell(0, col);
-        sets.push(col);
-    }
+    let visitedCount = 0;
 
     for (let row = 0; row < numberOfRows - 1; row++) {
-        // Merge sets in the current row
-        for (let col = 0; col < mazeManager.cols - 1; col++) {
+        // Phase 1: Randomly merge adjacent cells in current row
+        for (let col = 0; col < numberOfCols - 1; col++) {
             const currentCell = mazeManager.getCell(row, col);
-            currentCell.getCellDiv().classList.add('current');
+            if(sleepTime > 0) currentCell.getCellDiv().classList.add('current');
+            
             if (sets[col] !== sets[col + 1] && Math.random() < 0.5) {
-                mazeManager.removeWalls(mazeManager.getCell(row, col), mazeManager.getCell(row, col + 1));
+                mazeManager.removeWalls(currentCell, mazeManager.getCell(row, col + 1));
+                
+                // Optimized set merging: replace all occurrences in one pass
                 const oldSet = sets[col + 1];
                 const newSet = sets[col];
-                for (let i = 0; i < sets.length; i++) {
+                for (let i = 0; i < numberOfCols; i++) {
                     if (sets[i] === oldSet) {
                         sets[i] = newSet;
                     }
                 }
             }
-            if (sleepTime > 0) await new Promise(resolve => setTimeout(resolve, sleepTime));
-            currentCell.getCellDiv().classList.remove('current');
+            
+        }
+        visitedCount += numberOfCols;
+        if (sleepTime > 0) {
+            mazeManager.getCell(row, numberOfCols-1).getCellDiv().classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, sleepTime));
+            // Remove 'current' class from all cells in the row
+            for (let col = 0; col < numberOfCols; col++) {
+                const cell = mazeManager.getCell(row, col);
+                cell.getCellDiv().classList.remove('current');
+                cell.getCellDiv().classList.add('visited', 'dead-end');
+            }
+            const endTime = Date.now();
+            const elapsedTime = endTime - startTotalTime;
+            const remainingTime = elapsedTime * (totalCells - visitedCount);
+            logger('On Going...',
+                `visited: ${visitedCount} / ${totalCells}`,
+                `finished: ${(visitedCount / totalCells * 100).toFixed(2)}%`,
+                `time remaining: ${Math.floor(remainingTime / 1000)}s`
+            );
         }
 
+        // Phase 2: Create vertical connections
+        // Group cells by their set for efficient processing
+        const setGroups = new Map();
+        for (let col = 0; col < numberOfCols; col++) {
+            const setId = sets[col];
+            if (!setGroups.has(setId)) {
+                setGroups.set(setId, []);
+            }
+            setGroups.get(setId).push(col);
+        }
+
+        const downConnections = new Set();
         
-        // store the indexes of all the cell in each set
-        let indexesOfCellSets  = sets.reduce((acc, set, index) => {
-            if (!acc[set]) acc[set] = [];
-            acc[set].push(index);
-            return acc;
-        }, {});
-        
-        const downConnections = [];
-        // Create down connections by randomly choosing at least one cell from each set
-        for (let set in indexesOfCellSets) {
-            const indexes = indexesOfCellSets[set];
-            if (indexes.length > 0) {
-                let numberOfDownConnections =  1; // At least one connection
-                while (numberOfDownConnections > 0) {
-                    const randomIndex = Math.floor(Math.random() * indexes.length);
-                    const col = indexes[randomIndex];
-                    if (!downConnections.includes(col)) {
-                        downConnections.push(col);
-                        numberOfDownConnections--;
-                    }
+        // For each set, randomly choose at least one cell for vertical connection
+        for (const [setId, columns] of setGroups) {
+            // Ensure at least one connection per set
+            const mandatoryConnection = columns[Math.floor(Math.random() * columns.length)];
+            downConnections.add(mandatoryConnection);
+            
+            // Optionally add more connections (probability decreases with set size)
+            for (const col of columns) {
+                if (col !== mandatoryConnection && Math.random() < 0.3) {
+                    downConnections.add(col);
                 }
             }
         }
+
+        // Phase 3: Create new row sets efficiently
+        const newSets = new Array(numberOfCols);
         
-        // get the biggest set number to use it for the next row
-        let lastSet = Math.max(...sets);
-        let newSets = [];
-
-
-        // Create new sets for the next row
-        for (let col = 0; col < mazeManager.cols; col++) {
+        for (let col = 0; col < numberOfCols; col++) {
             const currentCell = mazeManager.getCell(row + 1, col);
-            if (downConnections.includes(col)) {
-                // If the cell is in a set that has a down connection, it belongs to the same set
+            
+            if (downConnections.has(col)) {
+                // Maintain the same set
                 mazeManager.removeWalls(currentCell, mazeManager.getCell(row, col));
-                newSets.push(sets[col]);
-                if (col > 0 && sets[col] === sets[col - 1]) {
-                    mazeManager.removeWalls(mazeManager.getCell(row + 1, col - 1), currentCell);
-                }
+                newSets[col] = sets[col];
             } else {
-                // Otherwise, create a new set
-                lastSet++;
-                newSets.push(lastSet);
+                // Create new set
+                newSets[col] = nextSetId++;
             }
-
         }
 
-        // Update the sets for the next row
-        sets.length = 0; // Clear the old sets
-        for (let i = 0; i < newSets.length; i++) {
-            sets.push(newSets[i]);
-        }
+        // Update sets for next iteration
+        sets = newSets;
     }
 
-    // Last row: connect all cells in the same set
-    for (let col = 0; col < mazeManager.cols - 1; col++) {
-        const currentCell = mazeManager.getCell(numberOfRows - 1, col);
+    // Final row: Connect all disjoint sets
+    const lastRow = numberOfRows - 1;
+    for (let col = 0; col < numberOfCols - 1; col++) {
+        const currentCell = mazeManager.getCell(lastRow, col);
         currentCell.getCellDiv().classList.add('current');
-        if (sets[col] !== sets[col + 1] && Math.random() < 0.5) {
-            mazeManager.removeWalls(mazeManager.getCell(numberOfRows - 1, col), mazeManager.getCell(numberOfRows - 1, col + 1));
+        
+        if (sets[col] !== sets[col + 1]) {
+            mazeManager.removeWalls(currentCell, mazeManager.getCell(lastRow, col + 1));
+            
+            // Merge sets
             const oldSet = sets[col + 1];
             const newSet = sets[col];
-            for (let i = 0; i < sets.length; i++) {
+            for (let i = 0; i < numberOfCols; i++) {
                 if (sets[i] === oldSet) {
                     sets[i] = newSet;
                 }
             }
         }
+        visitedCount++;
         if (sleepTime > 0) await new Promise(resolve => setTimeout(resolve, sleepTime));
         currentCell.getCellDiv().classList.remove('current');
+        currentCell.getCellDiv().classList.add('visited', 'dead-end');
     }
-
-    // Mark all cells as visited
-    mazeManager.cells.forEach(row => row.forEach(cell => {
-        cell.visited = true;
-        cell.getCellDiv().classList.add('visited', 'dead-end');
-        cell.getCellDiv().classList.remove('current', 'path');
-        visitedCount++;
-    }));
+    visitedCount ++;
+    // Mark the last cell as visited
+    const lastCell = mazeManager.getCell(lastRow, numberOfCols - 1);
+    lastCell.getCellDiv().classList.add('visited', 'dead-end');
 
     const endTotalTime = Date.now();
     const elapsedTotalTime = endTotalTime - startTotalTime;
