@@ -1,12 +1,17 @@
 import { MazeManager } from "../mazeManager.js";
 
 /**
+ * Generates a maze using Wilson's algorithm.
+ * Creates an unbiased maze by performing loop-erased random walks from unvisited cells
+ * to the existing maze. Like Aldous-Broder, it guarantees uniform distribution but is
+ * generally faster. The algorithm performs random walks and erases loops when they occur.
  * 
- * @param {MazeManager} mazeManager 
- * @param {number} startRow 
- * @param {number} startCol 
- * @param {number} sleepTime 
- * @param {(...String) -> void} logger 
+ * @param {MazeManager} mazeManager - The maze manager instance to generate the maze on
+ * @param {number} [startRow=0] - Starting row position (algorithm chooses random start)
+ * @param {number} [startCol=0] - Starting column position (algorithm chooses random start)
+ * @param {number} [sleepTime=5] - Delay in milliseconds between each step for visualization
+ * @param {Function} [logger=console.log] - Logging function for progress updates
+ * @async
  */
 export async function WilsonGenerator(mazeManager, startRow = 0, startCol = 0, sleepTime = 5, logger = console.log) {
     document.querySelector('.maze').style.setProperty('--current-transition-duration', `0s`);

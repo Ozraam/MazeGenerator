@@ -1,12 +1,17 @@
 import { MazeManager } from "../mazeManager.js";
 
 /**
- * Optimized Eller's Algorithm for maze generation
- * @param {MazeManager} mazeManager 
- * @param {number} startRow 
- * @param {number} startCol 
- * @param {number} sleepTime 
- * @param {(...String) => void} logger 
+ * Generates a maze using Eller's algorithm.
+ * An optimized algorithm that generates the maze row by row, requiring only O(width) memory.
+ * The algorithm maintains sets of connected cells and randomly merges adjacent cells within
+ * each row, then creates vertical connections to the next row. Very efficient for large mazes.
+ * 
+ * @param {MazeManager} mazeManager - The maze manager instance to generate the maze on
+ * @param {number} [startRow=0] - Starting row position (unused in this algorithm)
+ * @param {number} [startCol=0] - Starting column position (unused in this algorithm)
+ * @param {number} [sleepTime=5] - Delay in milliseconds between each step for visualization
+ * @param {Function} [logger=console.log] - Logging function for progress updates
+ * @async
  */
 export async function EllerGenerator(mazeManager, startRow = 0, startCol = 0, sleepTime = 5, logger = console.log) {
     document.querySelector('.maze').style.setProperty('--current-transition-duration', `0s`);

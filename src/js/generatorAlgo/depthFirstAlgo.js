@@ -1,8 +1,16 @@
 import { MazeManager } from "../mazeManager.js";
 
 /**
- * Generates a maze using the depth first algorithm
- * @param {MazeManager} mazeManager 
+ * Generates a maze using the depth-first search algorithm.
+ * Uses a stack-based approach to create a maze with a single solution path.
+ * The algorithm creates long, winding corridors with fewer dead ends.
+ * 
+ * @param {MazeManager} mazeManager - The maze manager instance to generate the maze on
+ * @param {number} [startRow=0] - Starting row position for maze generation
+ * @param {number} [startCol=0] - Starting column position for maze generation
+ * @param {number} [sleepTime=5] - Delay in milliseconds between each step for visualization
+ * @param {Function} [logger=console.log] - Logging function for progress updates
+ * @async
  */
 export async function depthFirstGenerator(mazeManager, startRow = 0, startCol = 0, sleepTime = 5, logger = console.log) {
     document.querySelector('.maze').style.setProperty('--current-transition-duration', `0.1s`);

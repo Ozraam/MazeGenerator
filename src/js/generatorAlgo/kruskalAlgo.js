@@ -1,8 +1,17 @@
 import { MazeManager } from "../mazeManager.js";
 
 /**
- * Generates a maze using the kruskal algorithm
- * @param {MazeManager} mazeManager 
+ * Generates a maze using Kruskal's algorithm.
+ * Creates a minimum spanning tree by randomly selecting walls and removing them
+ * if they connect different components. Results in a maze with many short dead ends
+ * and a more uniform distribution of passages.
+ * 
+ * @param {MazeManager} mazeManager - The maze manager instance to generate the maze on
+ * @param {number} [_startRow=0] - Starting row position (unused in this algorithm)
+ * @param {number} [_startCol=0] - Starting column position (unused in this algorithm)
+ * @param {number} [sleepTime=5] - Delay in milliseconds between each step for visualization
+ * @param {Function} [logger=console.log] - Logging function for progress updates
+ * @async
  */
 export async function kruskalGenerator(mazeManager, _startRow = 0, _startCol = 0, sleepTime = 5, logger = console.log) {
 
